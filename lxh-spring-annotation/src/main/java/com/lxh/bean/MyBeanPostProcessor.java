@@ -29,8 +29,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor
         {
             ((Bean07) bean).setName("被后置处理过bean07");
         }
-    }
         return bean;
-}
+    }
 
 }
