@@ -24,7 +24,7 @@ public class Bean4FactoryBean implements FactoryBean<Bean04> {
     @Override
     public boolean isSingleton() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
 }

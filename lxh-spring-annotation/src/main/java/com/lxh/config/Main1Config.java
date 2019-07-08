@@ -1,14 +1,13 @@
 package com.lxh.config;
 
+import com.lxh.Conditional.MyImportBeanDefinitionRegistrar;
 import com.lxh.Conditional.MyImportSelector;
 import com.lxh.Conditional.WindowsCondition;
-import com.lxh.Filter.MyTypeFilter;
-import com.lxh.bean.Bean01;
-import com.lxh.bean.Bean02;
-import com.lxh.bean.Bean4FactoryBean;
+import com.lxh.bean.*;
 import com.lxh.service.BookService;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 //配置类
@@ -31,7 +30,7 @@ import org.springframework.stereotype.Controller;
 @ComponentScans(
         value = {
                 @ComponentScan(value = "com.lxh", includeFilters = {
-                        @Filter(type = FilterType.ANNOTATION, classes = {Controller.class}),
+                        @Filter(type = FilterType.ANNOTATION, classes = {Controller.class, Component.class}),
                         @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {BookService.class}),
 //                        @Filter(type = FilterType.CUSTOM, classes = {MyTypeFilter.class})
                 }, useDefaultFilters = false)
@@ -43,8 +42,9 @@ import org.springframework.stereotype.Controller;
  * 		2）、ImportSelector:返回需要导入的组件的全类名数组；
  * 		3）、ImportBeanDefinitionRegistrar:手动注册bean到容器中
  */
-@Import({Bean02.class, MyImportSelector.class/*,MyImportBeanDefinitionRegistrar.class*/})
-public class Main1Config {
+@Import({Bean02.class, MyImportSelector.class, MyImportBeanDefinitionRegistrar.class})
+public class Main1Config
+{
 
     /**
      * Scope属性：
@@ -53,25 +53,50 @@ public class Main1Config {
      * request：同一次请求创建一个实例
      * session：同一个session创建一个实例
      */
-    @Scope("prototype")
+    @Scope("singleton")
     /**
      * @Lazy 懒加载：
      * 单实例bean：默认在容器启动的时候创建对象
      * 懒加载：容器启动不创建对象。第一次使用(获取)Bean创建对象，并初始化
      * */
-    @Lazy
+//    @Lazy
     /**
+     * value：指定名称
+     *
      * bean的生命周期：bean创建---初始化----销毁的过程
      * 容器管理bean的生命周期；
      * 我们可以自定义初始化和销毁方法；容器在bean进行到当前生命周期的时候来调用我们自定义的初始化和销毁方法
-     * 单例模式时bean在容器关闭的时候进行销毁，多实例时则容器不会管理这个bean，即容器不会调用销毁方法
-     * value：指定名称
-     * initMethod：指定初始化方法
-     * destroyMethod：指定销毁方法
+     * 初始化方法在实例创建完成后并所有属性都已赋初始值之后执行
+     * 单例模式时bean在容器关闭(applicationContext.close())的时候进行销毁，多实例时则容器不会管理这个bean，即容器不会调用销毁方法
+     * 指定初始化方法和小会方法
+     *      1.initMethod：指定初始化方法，destroyMethod：指定销毁方法
+     *      2.Bean实现InitializingBean（定义初始化逻辑），DisposableBean（定义销毁逻辑）;
+     *      3.可以使用JSR250注解，@PostConstruct：在bean创建完成并且属性赋值完成；来执行初始化方法，@PreDestroy：在容器销毁bean之前通知我们进行清理工作
+     *
      * */
-    @Bean(value = "bean01", initMethod = "init", destroyMethod = "detory")
-    public Bean01 bean01() {
+    @Bean(value = "bean01"/*, initMethod = "init", destroyMethod = "detory"*/)
+    public Bean01 bean01()
+    {
         return new Bean01("bean01");
+    }
+
+    /*JSR250注解定义初始化及销毁方法*/
+    @Bean(value = "bean06")
+    public Bean06 bean06()
+    {
+        return new Bean06("bean06");
+    }
+
+    /**
+     * BeanPostProcessor : bean的后置处理器；
+     * 在bean的初始化前后进行回调操作
+     * postProcessBeforeInitialization方法:在初始化之前工作
+     * postProcessAfterInitialization方法:在初始化之后工作
+     */
+    @Bean(value = "bean07", initMethod = "init", destroyMethod = "detory")
+    public Bean07 bean07()
+    {
+        return new Bean07("bean07");
     }
 
     /**
@@ -80,7 +105,8 @@ public class Main1Config {
      * 2）、要获取工厂Bean本身，我们需要给id前面加一个&,&bean4FactoryBean
      */
     @Bean
-    public Bean4FactoryBean bean4FactoryBean() {
+    public Bean4FactoryBean bean4FactoryBean()
+    {
         return new Bean4FactoryBean();
     }
 
