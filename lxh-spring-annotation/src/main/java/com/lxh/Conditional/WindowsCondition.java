@@ -8,7 +8,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class WindowsCondition implements Condition {
 
 	/**
-	 * 重写条件，判断系统是否windows
+	 * 閲嶅啓鏉′欢锛屽垽鏂郴缁熸槸鍚indows
 	 * */
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {

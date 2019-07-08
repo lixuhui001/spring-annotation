@@ -2,14 +2,15 @@ package com.lxh.bean;
 
 import org.springframework.beans.factory.FactoryBean;
 
-//创建一个Spring定义的FactoryBean
+
+//鍒涘缓涓�涓猄pring瀹氫箟鐨凢actoryBean
 public class Bean4FactoryBean implements FactoryBean<Bean04> {
 
-    //返回一个Color对象，这个对象会添加到容器中
+    //杩斿洖涓�涓狢olor瀵硅薄锛岃繖涓璞′細娣诲姞鍒板鍣ㄤ腑
     @Override
     public Bean04 getObject() throws Exception {
         // TODO Auto-generated method stub
-        System.out.println("Bean04已被添加到容器中");
+        System.out.println("Bean04宸茶娣诲姞鍒板鍣ㄤ腑");
         return new Bean04();
     }
 
@@ -19,7 +20,7 @@ public class Bean4FactoryBean implements FactoryBean<Bean04> {
         return Bean04.class;
     }
 
-    //是否单例
+    //鏄惁鍗曚緥
     @Override
     public boolean isSingleton() {
         // TODO Auto-generated method stub
@@ -27,3 +28,4 @@ public class Bean4FactoryBean implements FactoryBean<Bean04> {
     }
 
 }
+
