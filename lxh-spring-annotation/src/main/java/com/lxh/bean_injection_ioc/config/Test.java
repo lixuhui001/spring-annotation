@@ -1,6 +1,5 @@
 package com.lxh.bean_injection_ioc.config;
 
-import com.lxh.controller.BookController;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Test {

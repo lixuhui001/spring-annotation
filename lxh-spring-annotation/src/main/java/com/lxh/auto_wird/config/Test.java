@@ -1,7 +1,6 @@
 package com.lxh.auto_wird.config;
 
-import com.lxh.auto_wird.bean.Bean21;
-import com.lxh.auto_wird.bean.Bean22;
+import com.lxh.auto_wird.bean.*;
 import com.lxh.properties_source.bean.Bean10;
 import com.lxh.properties_source.config.Properties_Source_Config;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,6 +18,9 @@ public class Test {
         }
         System.out.println(applicationContext.getBean(Bean21.class));
         System.out.println(applicationContext.getBean(Bean22.class));
+        System.out.println(applicationContext.getBean(Bean23.class));
+        System.out.println(applicationContext.getBean(Bean24.class));
+        System.out.println(applicationContext.getBean(Bean25.class));
 
 
         applicationContext.stop();

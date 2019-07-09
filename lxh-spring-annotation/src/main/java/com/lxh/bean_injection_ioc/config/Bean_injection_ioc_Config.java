@@ -7,9 +7,7 @@ import com.lxh.bean_injection_ioc.ImportBeanDefinitionRegistrar.MyImportBeanDefi
 import com.lxh.bean_injection_ioc.TypeFilter.MyTypeFilter;
 import com.lxh.bean_injection_ioc.bean.*;
 import com.lxh.bean_injection_ioc.importSelector.MyImportSelector;
-import com.lxh.service.BookService;
 import org.springframework.context.annotation.*;
-import org.springframework.stereotype.Controller;
 
 
 //配置类
