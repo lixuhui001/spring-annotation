@@ -1,6 +1,7 @@
 package com.lxh.properties_source.config;
 
 import com.lxh.properties_source.bean.Bean10;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +14,20 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = {"classpath:/source.properties"})
 public class Properties_Source_Config
 {
-
+    @Value("1")
+    private String id;
+    @Value("#{1+2}")
+    private String age;
+    @Value("${name}")
+    private String name;
 
     @Bean
     public Bean10 Bean10(){
+        System.out.println(name);
+        System.out.println(name);
+        System.out.println(name);
+        System.out.println(name);
+        System.out.println(name);
          return  new Bean10();
     }
 }

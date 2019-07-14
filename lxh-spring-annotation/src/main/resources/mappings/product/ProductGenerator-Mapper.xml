@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <!-- 主键 -->
+  <mapper namespace="com.lxh.tx.dao.product.ProductGeneratorMapper">
+  <resultMap id="ProductMap" type="com.lxh.tx.bean.Product" >
+ 	      	  <id column="pid" property="pid" jdbcType="VARCHAR" />
+	            	  <result column="product_name" property="productName" jdbcType="VARCHAR" />
+	            	  <result column="db_source" property="dbSource" jdbcType="VARCHAR" />
+	        </resultMap>
+  
+  <!-- 查询where部分sql限制条件集合 -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim  prefixOverrides="and" prefix="(" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="("  close=")" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+				 <when test="criterion.customValue">
+                      ${criterion.value}
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+ <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach  collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+					#{listItem}
+                  </foreach>
+                </when>
+				<when test="criterion.customValue">
+                      ${criterion.value}
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+    <sql id="Base_Column_List">
+	        	    pid
+	  	  	   ,  product_name
+	  	  	   ,  db_source
+	  	    </sql>
+
+
+  <!-- 增 -->
+  <insert id="insertSelective" parameterType="com.lxh.tx.bean.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	   	   	        pid
+		          	       , product_name
+		          	       , db_source
+		              </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      		  #{pid,jdbcType=VARCHAR}
+		      		 , #{productName,jdbcType=VARCHAR}
+		      		 , #{dbSource,jdbcType=VARCHAR}
+		          </trim>
+  </insert>
+
+  <!-- 替换 -->
+  <insert id="replaceSelective" parameterType="com.lxh.tx.bean.Product" >
+     replace into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	   	   	        pid
+		          	       , product_name
+		          	       , db_source
+		              </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      		 		 				#{pid,jdbcType=VARCHAR}
+		  		 ,		 				#{productName,jdbcType=VARCHAR}
+		  		 ,		 				#{dbSource,jdbcType=VARCHAR}
+		      </trim>
+  </insert>
+  
+  <!-- 删 -->
+  <delete id="deleteByExample" parameterType="com.lxh.tx.bean.ProductExample" >
+    delete from product 
+	<if test="_parameter != null">
+       <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.lxh.tx.bean.ProductKey" >
+    delete from product where pid = 
+	    	     		  #{pid,jdbcType=VARCHAR}
+		 		      	          	          	 	
+  </delete>
+  
+  <!-- 改 -->
+  <update id="updateAllByExample">
+    update product
+    <set>
+	    		<if test="record.pid !=null">
+        pid = #{record.pid,jdbcType=VARCHAR},
+		 </if>
+				<if test="record.productName !=null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+		 </if>
+				<if test="record.dbSource !=null">
+        db_source = #{record.dbSource,jdbcType=VARCHAR},
+		 </if>
+		    </set>
+	<if test="_parameter != null">
+       <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lxh.tx.bean.Product" >
+    update product
+    <set>
+	      <if test="pid !=null">
+      pid = #{pid,jdbcType=VARCHAR},
+      </if>
+	      <if test="productName !=null">
+      product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+	      <if test="dbSource !=null">
+      db_source = #{dbSource,jdbcType=VARCHAR},
+      </if>
+	    </set>
+    where 
+		      pid = #{pid,jdbcType=VARCHAR}
+						  </update>
+
+  
+  
+  <!-- 查1 -->
+  <select id="countByExample" parameterType="com.lxh.tx.bean.ProductExample" resultType="java.lang.Integer">
+    select count(*) from product
+    <if test="_parameter != null">
+       <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <!-- 查2 -->
+  <select id="selectByExample" parameterType="com.lxh.tx.bean.ProductExample" resultMap="ProductMap">
+    select  
+	<if test="distinct">
+         distinct
+     </if> 
+	 <if test="columnName != null">
+            ${columnName.quereyColumnNameStr}
+     </if>
+	 <if test="columnName == null">
+			<include refid="Base_Column_List" />
+	 </if>
+	from product 
+   <if test="_parameter != null">
+       <include refid="Example_Where_Clause" />
+    </if>
+	<if test="orderByClause != null">
+       order by ${orderByClause}
+    </if>
+    <if test="limitStart &gt;= 0 and limitEnd &gt;= 0">
+       limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  
+   <!-- 查3 -->
+  <select id="selectByPrimaryKey" resultMap="ProductMap" parameterType="com.lxh.tx.bean.Product" >
+    select 
+	    	 pid
+			, product_name
+			, db_source
+		    from product where pid = #{pid,jdbcType=VARCHAR}
+  </select>
+
+    <!-- 查4 -->
+  <select id="selectUnDelByPrimaryKey" resultMap="ProductMap" parameterType="com.lxh.tx.bean.Product" >
+    select 
+	    	 pid
+			, product_name
+			, db_source
+		    from product where pid = #{pid,jdbcType=VARCHAR}
+								
+  </select>
+  
+</mapper>
